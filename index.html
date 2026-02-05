@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Will You Be My Valentine? 💖</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+  }
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background: url("https://images.unsplash.com/photo-1518199266791-5375a83190b7") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  body.romantic {
+    background: linear-gradient(120deg, #ff9a9e, #fad0c4);
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    width: 340px;
+    z-index: 2;
+  }
+
+  h1 {
+    color: #ff4d6d;
+    margin-bottom: 15px;
+  }
+
+  img {
+    width: 140px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  #yesBtn {
+    padding: 14px 28px;
+    font-size: 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    background: #ff4d6d;
+    color: white;
+    transition: transform 0.3s ease;
+  }
+
+  #noBtn {
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    background: #ccc;
+    position: fixed;
+    white-space: nowrap;
+    z-index: 3;
+  }
+
+  .fullscreen-yes {
+    position: fixed !important;
+    inset: 0;
+    border-radius: 0 !important;
+    font-size: 42px !important;
+    z-index: 999;
+  }
+
+  /* Popup */
+  .popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .popup-content {
+    background: white;
+    padding: 35px;
+    border-radius: 30px;
+    text-align: center;
+    animation: pop 0.4s ease;
+  }
+
+  @keyframes pop {
+    from { transform: scale(0.6); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  /* Floating hearts */
+  .heart {
+    position: fixed;
+    font-size: 24px;
+    animation: floatUp linear forwards;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @keyframes floatUp {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-120vh);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="cute kitten">
+  <h1>Will you be my Valentine? 💘</h1>
+  <button id="yesBtn">Yes 💖</button>
+</div>
+
+<button id="noBtn">No 🙈</button>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h2>Yayyyy!! 💕🥰</h2>
+    <p>
+      You just made my day ❤️<br>
+      Happy Valentine’s Day 💌<br><br>
+      Let’s meet on <strong>8th Feb 2026</strong><br>
+      for a cute ☕ coffee date 💕
+    </p>
+  </div>
+</div>
+
+<script>
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const popup = document.getElementById("popup");
+  const body = document.body;
+
+  let yesScale = 1;
+  let finished = false;
+  let heartsInterval;
+
+  function moveNo() {
+    const padding = 20;
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
+
+    noBtn.style.left = `${x}px`;
+    noBtn.style.top = `${y}px`;
+  }
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = ["❤️","💖","💕","💘"][Math.floor(Math.random() * 4)];
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.bottom = "-20px";
+    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+  }
+
+  // Initial NO position
+  moveNo();
+
+  // NO runs forever
+  noBtn.addEventListener("mouseenter", () => {
+    if (finished) return;
+
+    moveNo();
+    yesScale += 0.12;
+    yesBtn.style.transform = `scale(${yesScale})`;
+  });
+
+  // YES wins 💖
+  yesBtn.addEventListener("click", () => {
+    finished = true;
+
+    noBtn.remove();
+
+    body.classList.add("romantic");
+
+    yesBtn.classList.add("fullscreen-yes");
+    yesBtn.innerText = "YES 💖💖💖";
+
+    // Start hearts
+    heartsInterval = setInterval(createHeart, 300);
+
+    setTimeout(() => {
+      popup.style.display = "flex";
+    }, 400);
+  });
+</script>
+
+</body>
+</html>
