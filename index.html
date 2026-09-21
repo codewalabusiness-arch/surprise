@@ -1,214 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Will You Be My Valentine? 💖</title>
-
-<style>
-  * {
-    box-sizing: border-box;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-  }
-
-  body {
-    margin: 0;
-    height: 100vh;
-    background: url("https://images.unsplash.com/photo-1518199266791-5375a83190b7") center/cover no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  body.romantic {
-    background: linear-gradient(120deg, #ff9a9e, #fad0c4);
-  }
-
-  .card {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 30px;
-    border-radius: 25px;
-    text-align: center;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-    width: 340px;
-    z-index: 2;
-  }
-
-  h1 {
-    color: #ff4d6d;
-    margin-bottom: 15px;
-  }
-
-  img {
-    width: 140px;
-    border-radius: 20px;
-    margin-bottom: 10px;
-  }
-
-  #yesBtn {
-    padding: 14px 28px;
-    font-size: 20px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    background: #ff4d6d;
-    color: white;
-    transition: transform 0.3s ease;
-  }
-
-  #noBtn {
-    padding: 12px 25px;
-    font-size: 18px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    background: #ccc;
-    position: fixed;
-    white-space: nowrap;
-    z-index: 3;
-  }
-
-  .fullscreen-yes {
-    position: fixed !important;
-    inset: 0;
-    border-radius: 0 !important;
-    font-size: 42px !important;
-    z-index: 999;
-  }
-
-  /* Popup */
-  .popup {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-
-  .popup-content {
-    background: white;
-    padding: 35px;
-    border-radius: 30px;
-    text-align: center;
-    animation: pop 0.4s ease;
-  }
-
-  @keyframes pop {
-    from { transform: scale(0.6); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-
-  /* Floating hearts */
-  .heart {
-    position: fixed;
-    font-size: 24px;
-    animation: floatUp linear forwards;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  @keyframes floatUp {
-    from {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateY(-120vh);
-      opacity: 0;
-    }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Little Date Question ❤️</title>
+  <style>
+    * { box-sizing: border-box; font-family: "Trebuchet MS", Arial, sans-serif; }
+    body { margin: 0; min-height: 100vh; background: linear-gradient(135deg, #ff9a9e, #fecfef 48%, #ffe2ad); display: grid; place-items: center; overflow-x: hidden; padding: 24px; }
+    .card { width: min(100%, 420px); background: rgba(255,255,255,.94); padding: 30px; border-radius: 28px; text-align: center; box-shadow: 0 18px 50px rgba(126,38,70,.25); position: relative; z-index: 2; }
+    .hero { width: 145px; border-radius: 20px; margin-bottom: 7px; }
+    h1, h2 { color: #e83f68; margin: 8px 0 12px; } h1 { font-size: 26px; } h2 { font-size: 23px; }
+    p { color: #5d4a4f; line-height: 1.5; margin: 0 0 20px; }
+    .btn-container { display: flex; justify-content: center; gap: 12px; min-height: 52px; }
+    button { padding: 13px 24px; font-size: 16px; font-weight: 700; border: 0; border-radius: 30px; cursor: pointer; transition: transform .2s, box-shadow .2s; }
+    button:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(232,63,104,.2); }
+    #yesBtn, #sendBtn { color: #fff; background: #e83f68; } #noBtn { background: #f0e4e6; color: #75565e; position: relative; }
+    .planner { display: none; text-align: left; } .planner.visible { display: block; animation: pop .35s ease; } .intro.hidden { display: none; }
+    label { color: #7b4653; font-size: 14px; font-weight: bold; display: block; margin: 14px 0 6px; }
+    input { width: 100%; border: 1px solid #f0bdca; border-radius: 12px; padding: 12px; font-size: 15px; color: #4b3a3e; background: #fffafd; }
+    .food-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .food-option { border: 1px solid #f2c3cf; border-radius: 12px; padding: 10px 7px; text-align: center; font-size: 14px; cursor: pointer; background: #fffafd; color: #65454e; }
+    .food-option input { display: none; } .food-option:has(input:checked) { background: #ffe2e8; border-color: #e83f68; color: #c22951; }
+    #sendBtn { width: 100%; margin-top: 22px; background: #25D366; } .hint { font-size: 12px; text-align: center; margin: 10px 0 0; color: #8b7379; }
+    .heart { position: fixed; bottom: -30px; pointer-events: none; z-index: 1; animation: floatUp linear forwards; }
+    @keyframes pop { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } } @keyframes floatUp { to { transform: translateY(-115vh) rotate(20deg); opacity: 0; } }
+  </style>
 </head>
-
 <body>
-
-<div class="card">
-  <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="cute kitten">
-  <h1>Will you be my Valentine? 💘</h1>
-  <button id="yesBtn">Yes 💖</button>
-</div>
-
-<button id="noBtn">No 🙈</button>
-
-<div class="popup" id="popup">
-  <div class="popup-content">
-    <h2>Yayyyy!! 💕🥰</h2>
-    <p>
-      You just made my day ❤️<br>
-      Happy Valentine’s Day 💌<br><br>
-      Let’s meet <br>
-      for a ☕ coffee date 💕
-    </p>
-  </div>
-</div>
-
-<script>
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
-  const popup = document.getElementById("popup");
-  const body = document.body;
-
-  let yesScale = 1;
-  let finished = false;
-  let heartsInterval;
-
-  function moveNo() {
-    const padding = 20;
-    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
-    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
-
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
-  }
-
-  function createHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerText = ["❤️","💖","💕","💘"][Math.floor(Math.random() * 4)];
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.bottom = "-20px";
-    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
-
-    document.body.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 6000);
-  }
-
-  // Initial NO position
-  moveNo();
-
-  // NO runs forever
-  noBtn.addEventListener("mouseenter", () => {
-    if (finished) return;
-
-    moveNo();
-    yesScale += 0.12;
-    yesBtn.style.transform = `scale(${yesScale})`;
-  });
-
-  // YES wins 💖
-  yesBtn.addEventListener("click", () => {
-    finished = true;
-
-    noBtn.remove();
-
-    body.classList.add("romantic");
-
-    yesBtn.classList.add("fullscreen-yes");
-    yesBtn.innerText = "YES 💖💖💖";
-
-    // Start hearts
-    heartsInterval = setInterval(createHeart, 300);
-
-    setTimeout(() => {
-      popup.style.display = "flex";
-    }, 400);
-  });
-</script>
-
+  <main class="card">
+    <section class="intro" id="intro">
+      <img class="hero" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=400&q=85" alt="A romantic dinner table set for a date">
+      <h1>Can I take you on a date? ❤️</h1>
+      <p>I’d love to spend some lovely time with you. What do you say?</p>
+      <div class="btn-container"><button id="yesBtn" type="button">Yes, let’s go! 💖</button><button id="noBtn" type="button">No 🙈</button></div>
+    </section>
+    <section class="planner" id="planner" aria-live="polite">
+      <h2>Yay! Let’s plan it ✨</h2><p>Pick a day, time, and your perfect date treat.</p>
+      <label for="date">When should we go?</label><input id="date" type="date" required>
+      <label for="time">What time works for you?</label><input id="time" type="time" required>
+      <label>What sounds delicious?</label>
+      <div class="food-grid">
+        <label class="food-option"><input type="radio" name="food" value="Coffee and cake" checked>☕ Coffee &amp; cake</label>
+        <label class="food-option"><input type="radio" name="food" value="Pizza date">🍕 Pizza date</label>
+        <label class="food-option"><input type="radio" name="food" value="Sushi night">🍣 Sushi night</label>
+        <label class="food-option"><input type="radio" name="food" value="Ice cream adventure">🍦 Ice cream</label>
+        <label class="food-option"><input type="radio" name="food" value="A cozy brunch">🥐 Cozy brunch</label>
+        <label class="food-option"><input type="radio" name="food" value="Dinner and dessert">🍝 Dinner &amp; dessert</label>
+      </div>
+      <label for="otherIdea">Any other food or date-theme idea? <span>(optional)</span></label>
+      <input id="otherIdea" type="text" maxlength="140" placeholder="e.g. Street-food walk, movie night, or your favourite place">
+      <button id="sendBtn" type="button">Send our date plan on WhatsApp</button><p class="hint">Your date plan will be sent to your WhatsApp chat.</p>
+    </section>
+  </main>
+  <script>
+    const noBtn = document.getElementById('noBtn'); const intro = document.getElementById('intro'); const planner = document.getElementById('planner'); const dateInput = document.getElementById('date'); const timeInput = document.getElementById('time');
+    dateInput.min = new Date().toISOString().split('T')[0];
+    function moveNo() { const x = Math.max(12, Math.random() * (window.innerWidth - noBtn.offsetWidth - 24)); const y = Math.max(12, Math.random() * (window.innerHeight - noBtn.offsetHeight - 24)); noBtn.style.position = 'fixed'; noBtn.style.left = `${x}px`; noBtn.style.top = `${y}px`; }
+    function makeHeart() { const heart = document.createElement('span'); heart.className = 'heart'; heart.textContent = ['❤️','💖','💕','✨'][Math.floor(Math.random() * 4)]; heart.style.left = `${Math.random() * 100}vw`; heart.style.fontSize = `${18 + Math.random() * 16}px`; heart.style.animationDuration = `${3 + Math.random() * 3}s`; document.body.appendChild(heart); setTimeout(() => heart.remove(), 6000); }
+    noBtn.addEventListener('mouseenter', moveNo); noBtn.addEventListener('click', moveNo);
+    document.getElementById('yesBtn').addEventListener('click', () => { intro.classList.add('hidden'); planner.classList.add('visible'); setInterval(makeHeart, 500); dateInput.focus(); });
+    document.getElementById('sendBtn').addEventListener('click', () => {
+      if (!dateInput.value || !timeInput.value) { alert('Please choose both a date and a time first.'); (!dateInput.value ? dateInput : timeInput).focus(); return; }
+      const food = document.querySelector('input[name="food"]:checked').value;
+      const otherIdea = document.getElementById('otherIdea').value.trim();
+      const prettyDate = new Intl.DateTimeFormat(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(`${dateInput.value}T12:00:00`));
+      const prettyTime = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' }).format(new Date(`1970-01-01T${timeInput.value}`));
+      const extraIdea = otherIdea ? `\n💡 Other idea: ${otherIdea}` : '';
+      const message = `Yay! Our date is planned ❤️\n\n📅 ${prettyDate}\n🕒 ${prettyTime}\n🍽️ ${food}${extraIdea}\n\nI can't wait to make lovely memories with you! ✨`;
+      window.location.href = `https://wa.me/918109263079?text=${encodeURIComponent(message)}`;
+    });
+  </script>
 </body>
 </html>
-
